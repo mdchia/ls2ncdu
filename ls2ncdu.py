@@ -98,7 +98,7 @@ if __name__ == "__main__":
                 columns = line.split()
                 # hardcoded for `mdss ls -lR` output
                 permissions = columns[0]
-                if permissions.startswith("d") or permissions.startswith("l"):
+                if not permissions.startswith("-"):  # exclude directories/links/etc.
                     continue
                 # owner = columns[2]
                 # group = columns[3]
