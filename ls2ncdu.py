@@ -86,10 +86,13 @@ if __name__ == "__main__":
                     elif len(curr_dir_bits) == curr_depth:
                         json_add("],[", curr_level)
                     elif len(curr_dir_bits) < curr_depth:
-                        json_add("]", curr_level)
-                        curr_level -= 1
+                        while curr_depth != len(curr_dir_bits):
+                            # print("Depth: "+str(curr_depth)+" curr_dir_bits:"+str(len(curr_dir_bits)))
+                            json_add("]", curr_level)
+                            curr_level -= 1
+                            curr_depth = curr_level - base_level - 1
                         json_add("],[", curr_level)
-                    json_add_dir_entry(curr_path, curr_level + 1)
+                    json_add_dir_entry(curr_dir_bits[-1], curr_level + 1)
                 line_is_dir = False
             else:
                 columns = line.split()
