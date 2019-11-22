@@ -4,13 +4,14 @@ import sys
 import os
 
 # constants
-majorver = "1"
-minorver = "0"
+majorver = "1"  # must be 1 according to spec (currently)
+minorver = "0"  # indicates ncdu ver. support, 0 for ncdu >1.9, and 1 for extended mode ncdu >1.13
 program = "ls2ncdu"
 progver = "1.0"
 
 ls_lr_output = sys.argv[1]
-# use modification time of the ls -lR dump text file as the timestamp for ncdu json
+# use modification time of the ls -lR dump text file as the timestamp for
+# ncdu json (needs to be a UNIX timestamp)
 ctime_str = str(int(os.path.getmtime(ls_lr_output)))
 
 # originally meant to be be the global string for storing the whole json file
@@ -118,6 +119,7 @@ if __name__ == "__main__":
                 json_val_add("asize", int(size), curr_level + 1, True)
                 json_add("}", curr_level)
     while (curr_level > base_level):
+        # add final closing brackets
         json_add("]", curr_level)
         curr_level -= 1
     json_add("]")
