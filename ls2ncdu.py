@@ -7,7 +7,7 @@ import os
 majorver = "1"
 minorver = "0"
 program = "ls2ncdu"
-progver = "0.5"
+progver = "1.0"
 
 ls_lr_output = sys.argv[1]
 # use modification time of the ls -lR dump text file as the timestamp for ncdu json
