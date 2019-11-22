@@ -10,8 +10,11 @@ program = "ls2ncdu"
 progver = "0.5"
 
 ls_lr_output = sys.argv[1]
+# use modification time of the ls -lR dump text file as the timestamp for ncdu json
 ctime_str = str(int(os.path.getmtime(ls_lr_output)))
 
+# originally meant to be be the global string for storing the whole json file
+# ditched for printing directly
 # ncdu_json = ""
 
 
@@ -26,6 +29,9 @@ def json_val_add(keystr, valuestr, level=0, last=False):
         print((level_char * level) + '"' + str(keystr) + '" : "' + valuestr + '"' + ("" if last else ","))
     else:
         print((level_char * level) + '"' + str(keystr) + '" : ' + str(valuestr) + ("" if last else ","))
+
+# doesn't actually parse ls -lR data for directory info, so assumptions on dir
+# are stored in this function
 
 
 def json_add_dir_entry(dirstr, level=0):
@@ -78,7 +84,7 @@ if __name__ == "__main__":
                     curr_path = curr_path.replace(root_dir, "")
                     curr_dir_bits = curr_path.split("/")
                     curr_depth = curr_level - base_level - 1
-                    # print("Depth: "+str(curr_depth)+" curr_dir_bits:"+str(len(curr_dir_bits)))
+                    # print("Depth: "+str(curr_depth)+" curr_dir_bits:"+str(len(curr_dir_bits)))  # debug
                     if len(curr_dir_bits) > curr_depth:
                         json_add(",", curr_level)
                         curr_level += 1
@@ -87,10 +93,10 @@ if __name__ == "__main__":
                         json_add("],[", curr_level)
                     elif len(curr_dir_bits) < curr_depth:
                         while curr_depth != len(curr_dir_bits):
-                            # print("Depth: "+str(curr_depth)+" curr_dir_bits:"+str(len(curr_dir_bits)))
+                            # print("Depth: "+str(curr_depth)+" curr_dir_bits:"+str(len(curr_dir_bits)))  # debug
                             json_add("]", curr_level)
                             curr_level -= 1
-                            curr_depth = curr_level - base_level - 1
+                            curr_depth = curr_level - base_level - 1  # recalculate tree depth
                         json_add("],[", curr_level)
                     json_add_dir_entry(curr_dir_bits[-1], curr_level + 1)
                 line_is_dir = False
