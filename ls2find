@@ -1,18 +1,16 @@
 #!/usr/bin/env python3
 from sys import stdin
 
-dir = "."
-files = []
+dir = None
 for line in stdin:
     line=line.rstrip()
-    if line == "" and dir and files:
-        for f in files:
-            print(dir + "/" + f)
-        dir = "???"
-        files = []
-    elif line.endswith(":"):
+    if line.endswith(":"):
         dir = line.rstrip(":")
+    elif line == "" or line.startswith("total"):
+        continue
     else:
-        files.append(line)
-for f in files:
-    print(dir + "/" + f)
+        if line.startswith("d"):  # directory
+            continue
+        if dir is None:
+            dir = "???????"
+        print(dir + "/" + line.split(" ")[-1])

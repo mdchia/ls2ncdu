@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="ls2ncdu",
-    version="0.0.1",
+    version="0.0.3",
     author="Ming Chia/Kevin Murray",
     author_email="foss@kdmurray.id.au",
     description="NCDU crawler for systems where only ls is available",
