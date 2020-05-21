@@ -21,5 +21,6 @@ setuptools.setup(
     ],
     scripts=[
         "ls2ncdu",
+        "ls2find",
     ],
 )
