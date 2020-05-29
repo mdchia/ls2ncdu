@@ -1,0 +1,16 @@
+#!/usr/bin/env python3
+from sys import stdin
+
+dir = None
+for line in stdin:
+    line=line.rstrip()
+    if line.endswith(":"):
+        dir = line.rstrip(":")
+    elif line == "" or line.startswith("total"):
+        continue
+    else:
+        if line.startswith("d"):  # directory
+            continue
+        if dir is None:
+            dir = "???????"
+        print(dir + "/" + line.split(" ")[-1])
